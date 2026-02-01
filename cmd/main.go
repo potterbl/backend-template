@@ -12,9 +12,19 @@ import (
 func main() {
 	cfg := config.InitYAMLConfig()
 
-	_ = repository.NewRepository()
-	_ = service.NewService()
-	handlers := handler.NewHandler()
+	// Инициализация подключения к БД
+	db, err := repository.InitDB(cfg.GetDatabaseDSN())
+	if err != nil {
+		logrus.Fatalf("Failed to initialize database: %v", err)
+	}
+	defer db.Close()
+
+	// Инициализация зависимостей
+	repo := repository.NewRepository(db)
+	svc := service.NewService(repo)
+	handlers := handler.NewHandler(svc)
+	
+	// Инициализация роутов
 	router := handlers.InitRoutes()
 
 	logrus.Printf("Server starting on port %s", cfg.Configuration.Backend.ApiPort)

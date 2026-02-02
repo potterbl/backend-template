@@ -1,12 +1,13 @@
 package handler
 
 import (
-	"net/http"
-	"github.com/gin-gonic/gin"
-	"github.com/potterbl/agent/internal/service"
-	"github.com/potterbl/agent/pkg/types"
-	"strconv"
 	"errors"
+	"net/http"
+	"strconv"
+
+	"github.com/gin-gonic/gin"
+	"github.com/potterbl/story-backend/internal/service"
+	"github.com/potterbl/story-backend/pkg/types"
 )
 
 type UserHandler struct {

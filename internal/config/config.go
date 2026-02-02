@@ -2,10 +2,11 @@ package config
 
 import (
 	"fmt"
-	"github.com/potterbl/agent/pkg/types"
-	"gopkg.in/yaml.v3"
 	"log"
 	"os"
+
+	"github.com/potterbl/story-backend/pkg/types"
+	"gopkg.in/yaml.v3"
 )
 
 //func InitEnvConfig() *types.EnvConfig {

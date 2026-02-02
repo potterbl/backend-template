@@ -3,8 +3,9 @@ package repository
 import (
 	"database/sql"
 	"fmt"
+
 	"github.com/jmoiron/sqlx"
-	"github.com/potterbl/agent/pkg/types"
+	"github.com/potterbl/story-backend/pkg/types"
 )
 
 type UserRepository interface {
@@ -31,14 +32,14 @@ func (r *userRepository) CreateUser(user *types.User) error {
 		INSERT INTO users (email, name, created_at, updated_at) 
 		VALUES ($1, $2, NOW(), NOW()) 
 		RETURNING id, created_at, updated_at`
-	
+
 	err := r.db.QueryRow(query, user.Email, user.Name).Scan(
 		&user.ID, &user.CreatedAt, &user.UpdatedAt,
 	)
 	if err != nil {
 		return fmt.Errorf("failed to create user: %w", err)
 	}
-	
+
 	return nil
 }
 
@@ -46,7 +47,7 @@ func (r *userRepository) CreateUser(user *types.User) error {
 func (r *userRepository) GetUserByID(id uint) (*types.User, error) {
 	user := &types.User{}
 	query := `SELECT id, email, name, created_at, updated_at FROM users WHERE id = $1`
-	
+
 	err := r.db.Get(user, query, id)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -54,7 +55,7 @@ func (r *userRepository) GetUserByID(id uint) (*types.User, error) {
 		}
 		return nil, fmt.Errorf("failed to get user: %w", err)
 	}
-	
+
 	return user, nil
 }
 
@@ -62,12 +63,12 @@ func (r *userRepository) GetUserByID(id uint) (*types.User, error) {
 func (r *userRepository) GetAllUsers() ([]types.User, error) {
 	var users []types.User
 	query := `SELECT id, email, name, created_at, updated_at FROM users ORDER BY id`
-	
+
 	err := r.db.Select(&users, query)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get users: %w", err)
 	}
-	
+
 	return users, nil
 }
 
@@ -78,7 +79,7 @@ func (r *userRepository) UpdateUser(id uint, user *types.User) error {
 		SET email = $1, name = $2, updated_at = NOW() 
 		WHERE id = $3 
 		RETURNING updated_at`
-	
+
 	err := r.db.QueryRow(query, user.Email, user.Name, id).Scan(&user.UpdatedAt)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -86,7 +87,7 @@ func (r *userRepository) UpdateUser(id uint, user *types.User) error {
 		}
 		return fmt.Errorf("failed to update user: %w", err)
 	}
-	
+
 	user.ID = id
 	return nil
 }
@@ -94,20 +95,20 @@ func (r *userRepository) UpdateUser(id uint, user *types.User) error {
 // DeleteUser удаляет пользователя
 func (r *userRepository) DeleteUser(id uint) error {
 	query := `DELETE FROM users WHERE id = $1`
-	
+
 	result, err := r.db.Exec(query, id)
 	if err != nil {
 		return fmt.Errorf("failed to delete user: %w", err)
 	}
-	
+
 	rowsAffected, err := result.RowsAffected()
 	if err != nil {
 		return fmt.Errorf("failed to get rows affected: %w", err)
 	}
-	
+
 	if rowsAffected == 0 {
 		return fmt.Errorf("user not found")
 	}
-	
+
 	return nil
 }

@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/potterbl/agent/internal/config"
-	"github.com/potterbl/agent/internal/handler"
-	"github.com/potterbl/agent/internal/repository"
-	"github.com/potterbl/agent/internal/service"
+
+	"github.com/potterbl/story-backend/internal/config"
+	"github.com/potterbl/story-backend/internal/handler"
+	"github.com/potterbl/story-backend/internal/repository"
+	"github.com/potterbl/story-backend/internal/service"
 	"github.com/sirupsen/logrus"
 )
 
@@ -23,7 +24,7 @@ func main() {
 	repo := repository.NewRepository(db)
 	svc := service.NewService(repo)
 	handlers := handler.NewHandler(svc)
-	
+
 	// Инициализация роутов
 	router := handlers.InitRoutes()
 

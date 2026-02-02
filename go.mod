@@ -1,4 +1,4 @@
-module github.com/potterbl/agent
+module github.com/potterbl/story-backend
 
 go 1.23.6
 

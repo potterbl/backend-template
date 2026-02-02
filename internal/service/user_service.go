@@ -2,8 +2,9 @@ package service
 
 import (
 	"errors"
-	"github.com/potterbl/agent/internal/repository"
-	"github.com/potterbl/agent/pkg/types"
+
+	"github.com/potterbl/story-backend/internal/repository"
+	"github.com/potterbl/story-backend/pkg/types"
 )
 
 type UserService interface {
@@ -81,14 +82,14 @@ func (s *userService) UpdateUser(id uint, req *types.UpdateUserRequest) (*types.
 
 	// Обновляем только переданные поля
 	updatedUser := *existingUser
-	
+
 	if req.Name != nil {
 		if len(*req.Name) < 2 {
 			return nil, errors.New("name must be at least 2 characters long")
 		}
 		updatedUser.Name = *req.Name
 	}
-	
+
 	if req.Email != nil {
 		updatedUser.Email = *req.Email
 	}

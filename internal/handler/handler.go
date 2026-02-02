@@ -2,8 +2,9 @@ package handler
 
 import (
 	"net/http"
+
 	"github.com/gin-gonic/gin"
-	"github.com/potterbl/agent/internal/service"
+	"github.com/potterbl/story-backend/internal/service"
 )
 
 // Handler содержит все хендлеры
@@ -36,7 +37,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	{
 		// Регистрация роутов для пользователей
 		h.User.RegisterUserRoutes(api)
-		
+
 		// Здесь можно добавить другие роуты
 		// h.Product.RegisterProductRoutes(api)
 		// h.Order.RegisterOrderRoutes(api)
@@ -48,7 +49,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 // healthCheck проверка здоровья сервиса
 func (h *Handler) healthCheck(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
-		"status": "ok",
+		"status":  "ok",
 		"service": "backend-template",
 	})
 }

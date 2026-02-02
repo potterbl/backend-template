@@ -1,6 +1,6 @@
 package service
 
-import "github.com/potterbl/agent/internal/repository"
+import "github.com/potterbl/story-backend/internal/repository"
 
 // Service содержит все сервисы
 type Service struct {
